@@ -25,7 +25,7 @@ variable "record_ttl" {
 
 variable "mx" {
   type        = map(number)
-  description = "A map representing the MX records. Key is the priority and value is the mail server hostname."
+  description = "A map representing the MX records. Key is the mail server hostname and value is the priority."
 
   validation {
     condition     = length(var.mx) > 0
