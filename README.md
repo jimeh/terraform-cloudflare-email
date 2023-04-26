@@ -48,7 +48,7 @@ including serving a MTA-STS policy text file via Cloudflare Workers.
 ```terraform
 module "email" {
   source  = "jimeh/email/cloudflare"
-  version = "0.0.1"
+  version = "0.0.2"
 
   account_id = var.cloudflare_account_id
   zone_id    = var.cloudflare_zone_id
