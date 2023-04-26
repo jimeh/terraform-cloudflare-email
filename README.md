@@ -38,6 +38,70 @@ including serving a MTA-STS policy text file via Cloudflare Workers.
   `https://mta-sts.<your-domain>/.well-known/mta-sts.txt`.
 - Configure domain key records (`<selector>._domainkey.<your-domain>`).
 
+## Example Usage
+
+<!-- x-release-please-start-version -->
+
+<details>
+<summary>Gmail</summary>
+
+```terraform
+module "email" {
+  source  = "jimeh/email/cloudflare"
+  version = "0.0.1"
+
+  account_id = var.cloudflare_account_id
+  zone_id    = var.cloudflare_zone_id
+
+  mx = {
+    "aspmx.l.google.com"      = 1
+    "alt1.aspmx.l.google.com" = 5
+    "alt2.aspmx.l.google.com" = 5
+    "alt3.aspmx.l.google.com" = 10
+    "alt4.aspmx.l.google.com" = 10
+  }
+
+  spf_terms = [
+    "include:_spf.google.com",
+    "~all",
+  ]
+
+  mta_sts_mode    = "enforce"
+  mta_sts_max_age = 86400
+  mta_sts_mx = [
+    "*.aspmx.l.google.com",
+    "*.googlemail.com",
+    "aspmx.l.google.com",
+  ]
+  tlsrpt_rua = [
+    "mailto:tls-report@${var.cloudflare_zone_name}",
+  ]
+
+  dmarc_policy = "reject"
+  dmarc_rua = [
+    "mailto:dmarc-report@${var.cloudflare_zone_name}",
+  ]
+
+  domainkeys = {
+    "google" = {
+      type = "TXT"
+      value = join("", [
+        "v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAVNwJ9",
+        "+6ArXN23ZaR8SFSYxVEEbbHRZplZqHVt6uEpcirY+jxHOqV2bvqAY3BHZQs/KoHnFSWUf",
+        "6zv6ajZgUxvU65UhCbrQ7CwrJCjU8sQFDk+CpbvmXyJIe9G470HuGEs4NmQDoddJZr09V",
+        "7d3anX8n7ePSCsIxwGi53DMhwijQXqHYMFALml+QIMZ/03ydL6/B3EwDNDFSBSEqzt2QS",
+        "N43EYb3FlUiGu5NGHl3gibEsbywTmGtN3kmkp/rxqaJPLv16NVpTe+0lAqPiq/pgJT4pp",
+        "ACz2ENh6BD0H+hDiCKBiw+gyAeDbOn1c5yslENSEyDxqpn17tnxo+O/ZFmwIDAQAB"
+      ])
+    }
+  }
+}
+```
+
+</details>
+
+<!-- x-release-please-end -->
+
 ## Requirements
 
 | Name                                                                        | Version       |
