@@ -1,0 +1,8 @@
+formatter: "markdown table"
+output:
+  file: "README.md"
+  mode: inject
+
+settings:
+  hide-empty: false
+  read-comments: true
