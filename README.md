@@ -67,7 +67,7 @@ Workspace > Gmail > Authenticate Email.
 ```terraform
 module "email" {
   source  = "jimeh/email/cloudflare"
-  version = "0.0.2"
+  version = "0.0.3"
 
   account_id = var.cloudflare_account_id
   zone_id    = var.cloudflare_zone_id
@@ -163,7 +163,7 @@ help article.
 ```terraform
 module "email" {
   source  = "jimeh/email/cloudflare"
-  version = "0.0.2"
+  version = "0.0.3"
 
   account_id = var.cloudflare_account_id
   zone_id    = var.cloudflare_zone_id
