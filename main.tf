@@ -3,8 +3,7 @@
 #
 
 data "cloudflare_zone" "zone" {
-  account_id = var.account_id
-  zone_id    = var.zone_id
+  zone_id = var.zone_id
 }
 
 locals {
@@ -31,7 +30,7 @@ locals {
   }
 }
 
-resource "cloudflare_record" "mx" {
+resource "cloudflare_dns_record" "mx" {
   for_each = local.mx_records
 
   name     = each.value.name
@@ -39,7 +38,7 @@ resource "cloudflare_record" "mx" {
   proxied  = false
   ttl      = var.record_ttl
   type     = "MX"
-  value    = each.value.mx
+  content  = each.value.mx
   zone_id  = var.zone_id
 }
 
@@ -47,12 +46,12 @@ resource "cloudflare_record" "mx" {
 # SPF
 #
 
-resource "cloudflare_record" "spf" {
+resource "cloudflare_dns_record" "spf" {
   name    = local.zone_name
   proxied = false
   ttl     = var.record_ttl
   type    = "TXT"
-  value   = join(" ", concat(["v=spf1"], var.spf_terms))
+  content = join(" ", concat(["v=spf1"], var.spf_terms))
   zone_id = var.zone_id
 }
 
@@ -60,10 +59,11 @@ resource "cloudflare_record" "spf" {
 # TLS SMTP
 #
 
-resource "cloudflare_record" "smtp_tls" {
+resource "cloudflare_dns_record" "smtp_tls" {
   name    = "_smtp._tls"
+  ttl     = var.record_ttl
   type    = "TXT"
-  value   = "v=TLSRPTv1; rua=${join(",", var.tlsrpt_rua)}"
+  content = "v=TLSRPTv1; rua=${join(",", var.tlsrpt_rua)}"
   zone_id = var.zone_id
 }
 
@@ -77,32 +77,33 @@ locals {
     max_age = var.mta_sts_max_age
     mx      = sort(distinct(concat(keys(var.mx), var.mta_sts_mx)))
   })
-  policy_sha = sha1(local.policy)
+  policy_sha  = sha1(local.policy)
+  worker_name = "mta-sts-${replace(local.zone_name, "/[^A-Za-z0-9-]/", "-")}"
 }
 
-resource "cloudflare_record" "mta-sts-a" {
+resource "cloudflare_dns_record" "mta-sts-a" {
   name    = "mta-sts"
   proxied = true
   ttl     = var.record_ttl
   type    = "A"
-  value   = "192.0.2.1"
+  content = "192.0.2.1"
   zone_id = var.zone_id
 }
 
-resource "cloudflare_record" "mta-sts-aaaa" {
+resource "cloudflare_dns_record" "mta-sts-aaaa" {
   name    = "mta-sts"
   proxied = true
   ttl     = var.record_ttl
   type    = "AAAA"
-  value   = "100::"
+  content = "100::"
   zone_id = var.zone_id
 }
 
-resource "cloudflare_record" "mta_sts" {
+resource "cloudflare_dns_record" "mta_sts" {
   name    = "_mta-sts"
   ttl     = var.record_ttl
   type    = "TXT"
-  value   = "v=STSv1; id=${local.policy_sha}"
+  content = "v=STSv1; id=${local.policy_sha}"
   zone_id = var.zone_id
 }
 
@@ -113,26 +114,49 @@ resource "cloudflare_workers_kv_namespace" "mta_sts" {
 
 resource "cloudflare_workers_kv" "mta_sts" {
   namespace_id = cloudflare_workers_kv_namespace.mta_sts.id
-  key          = "mta-sts.txt"
+  key_name     = "mta-sts.txt"
   value        = local.policy
   account_id   = var.account_id
 }
 
-resource "cloudflare_worker_script" "mta_sts" {
-  name       = "mta-sts-${replace(local.zone_name, "/[^A-Za-z0-9-]/", "-")}"
-  content    = file("${path.module}/mta-sts.js")
+resource "cloudflare_worker" "mta_sts" {
   account_id = var.account_id
-
-  kv_namespace_binding {
-    name         = "FILES"
-    namespace_id = cloudflare_workers_kv_namespace.mta_sts.id
-  }
+  name       = local.worker_name
 }
 
-resource "cloudflare_worker_route" "mta_sts_route" {
-  pattern     = "mta-sts.${local.zone_name}/*"
-  script_name = cloudflare_worker_script.mta_sts.name
-  zone_id     = var.zone_id
+resource "cloudflare_worker_version" "mta_sts" {
+  account_id = var.account_id
+  worker_id  = cloudflare_worker.mta_sts.name
+
+  main_module = "mta-sts.js"
+  modules = [{
+    name         = "mta-sts.js"
+    content_file = "${path.module}/mta-sts.js"
+    content_type = "application/javascript+module"
+  }]
+
+  bindings = [{
+    name         = "FILES"
+    type         = "kv_namespace"
+    namespace_id = cloudflare_workers_kv_namespace.mta_sts.id
+  }]
+}
+
+resource "cloudflare_workers_deployment" "mta_sts" {
+  account_id  = var.account_id
+  script_name = cloudflare_worker.mta_sts.name
+  strategy    = "percentage"
+
+  versions = [{
+    percentage = 100
+    version_id = cloudflare_worker_version.mta_sts.id
+  }]
+}
+
+resource "cloudflare_workers_route" "mta_sts_route" {
+  pattern = "mta-sts.${local.zone_name}/*"
+  script  = cloudflare_worker.mta_sts.name
+  zone_id = var.zone_id
 }
 
 #
@@ -150,12 +174,12 @@ locals {
   }
 }
 
-resource "cloudflare_record" "dmarc" {
+resource "cloudflare_dns_record" "dmarc" {
   name    = "_dmarc"
   proxied = false
   ttl     = floor(var.dmarc_ttl)
   type    = "TXT"
-  value = join(" ", flatten([
+  content = join(" ", flatten([
     "v=DMARC1;",
     "p=${var.dmarc_policy};",
     "pct=${floor(var.dmarc_percent)};",
@@ -177,13 +201,13 @@ resource "cloudflare_record" "dmarc" {
 # Domain Keys (DKIM)
 #
 
-resource "cloudflare_record" "domainkeys" {
+resource "cloudflare_dns_record" "domainkeys" {
   for_each = var.domainkeys
 
   name    = "${each.key}._domainkey"
   proxied = false
   ttl     = var.record_ttl
   type    = upper(each.value.type)
-  value   = each.value.value
+  content = each.value.value
   zone_id = var.zone_id
 }

@@ -282,13 +282,13 @@ resource "cloudflare_record" "srv" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1 |
-| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | >= 3.0, < 5.0 |
+| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | >= 5.0, < 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | >= 3.0, < 5.0 |
+| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | >= 5.0, < 6.0 |
 
 ## Modules
 
@@ -298,18 +298,20 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [cloudflare_record.dmarc](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_record.domainkeys](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_record.mta-sts-a](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_record.mta-sts-aaaa](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_record.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_record.mx](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_record.smtp_tls](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_record.spf](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
-| [cloudflare_worker_route.mta_sts_route](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker_route) | resource |
-| [cloudflare_worker_script.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker_script) | resource |
+| [cloudflare_dns_record.dmarc](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_dns_record.domainkeys](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_dns_record.mta-sts-a](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_dns_record.mta-sts-aaaa](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_dns_record.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_dns_record.mx](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_dns_record.smtp_tls](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_dns_record.spf](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/dns_record) | resource |
+| [cloudflare_worker.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker) | resource |
+| [cloudflare_worker_version.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker_version) | resource |
+| [cloudflare_workers_deployment.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_deployment) | resource |
 | [cloudflare_workers_kv.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_kv) | resource |
 | [cloudflare_workers_kv_namespace.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_kv_namespace) | resource |
+| [cloudflare_workers_route.mta_sts_route](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_route) | resource |
 | [cloudflare_zone.zone](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 
 ## Inputs
