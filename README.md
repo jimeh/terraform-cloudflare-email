@@ -275,6 +275,8 @@ resource "cloudflare_record" "srv" {
 
 <!-- x-release-please-end -->
 
+<!-- prettier-ignore-start -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -293,48 +295,50 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                                                | Type        |
-| --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [cloudflare_record.dmarc](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                               | resource    |
-| [cloudflare_record.domainkeys](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                          | resource    |
-| [cloudflare_record.mta-sts-a](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                           | resource    |
-| [cloudflare_record.mta-sts-aaaa](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                        | resource    |
-| [cloudflare_record.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                             | resource    |
-| [cloudflare_record.mx](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                                  | resource    |
-| [cloudflare_record.smtp_tls](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                            | resource    |
-| [cloudflare_record.spf](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record)                                 | resource    |
-| [cloudflare_worker_route.mta_sts_route](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker_route)           | resource    |
-| [cloudflare_worker_script.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker_script)               | resource    |
-| [cloudflare_workers_kv.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_kv)                     | resource    |
-| [cloudflare_workers_kv_namespace.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_kv_namespace) | resource    |
-| [cloudflare_zone.zone](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone)                                 | data source |
+| Name | Type |
+|------|------|
+| [cloudflare_record.dmarc](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_record.domainkeys](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_record.mta-sts-a](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_record.mta-sts-aaaa](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_record.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_record.mx](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_record.smtp_tls](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_record.spf](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record) | resource |
+| [cloudflare_worker_route.mta_sts_route](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker_route) | resource |
+| [cloudflare_worker_script.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/worker_script) | resource |
+| [cloudflare_workers_kv.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_kv) | resource |
+| [cloudflare_workers_kv_namespace.mta_sts](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/workers_kv_namespace) | resource |
+| [cloudflare_zone.zone](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/data-sources/zone) | data source |
 
 ## Inputs
 
-| Name                                                                                  | Description                                                                                                                | Type                                                                            | Default                                                | Required |
-| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------ | :------: |
-| <a name="input_account_id"></a> [account\_id](#input\_account\_id)                    | Cloudflare Account ID                                                                                                      | `string`                                                                        | n/a                                                    | yes      |
-| <a name="input_dmarc_dkim_mode"></a> [dmarc\_dkim\_mode](#input\_dmarc\_dkim\_mode)   | The DMARC DKIM mode for alignment (options: `relaxed`, `strict`).                                                          | `string`                                                                        | `"relaxed"`                                            | no       |
-| <a name="input_dmarc_fo"></a> [dmarc\_fo](#input\_dmarc\_fo)                          | Failure reporting options for DMARC (characters: `0`, `1`, `d`, `s`, separated by `:`).                                    | `string`                                                                        | `"1:d:s"`                                              | no       |
-| <a name="input_dmarc_percent"></a> [dmarc\_percent](#input\_dmarc\_percent)           | Percentage of messages to apply the DMARC policy to (0-100).                                                               | `number`                                                                        | `100`                                                  | no       |
-| <a name="input_dmarc_policy"></a> [dmarc\_policy](#input\_dmarc\_policy)              | The DMARC policy to apply (options: `none`, `quarantine`, `reject`).                                                       | `string`                                                                        | `"none"`                                               | no       |
-| <a name="input_dmarc_rua"></a> [dmarc\_rua](#input\_dmarc\_rua)                       | Where aggregate DMARC reports about policy violations should be sent.                                                      | `list(string)`                                                                  | n/a                                                    | yes      |
-| <a name="input_dmarc_ruf"></a> [dmarc\_ruf](#input\_dmarc\_ruf)                       | Where failure/forensic DMARC reports about policy violations should be sent.                                               | `list(string)`                                                                  | `[]`                                                   | no       |
-| <a name="input_dmarc_spf_mode"></a> [dmarc\_spf\_mode](#input\_dmarc\_spf\_mode)      | The DMARC SPF mode for alignment (options: `relaxed`, `strict`).                                                           | `string`                                                                        | `"relaxed"`                                            | no       |
-| <a name="input_dmarc_ttl"></a> [dmarc\_ttl](#input\_dmarc\_ttl)                       | TTL for `_dmarc` DNS record. `1` is auto. Default is `1`.                                                                  | `number`                                                                        | `1`                                                    | no       |
-| <a name="input_domainkeys"></a> [domainkeys](#input\_domainkeys)                      | Map of domain keys with name, record type (`TXT` or `CNAME`), and value.                                                   | <pre>map(object({<br/>    type  = string<br/>    value = string<br/>  }))</pre> | `{}`                                                   | no       |
-| <a name="input_mta_sts_max_age"></a> [mta\_sts\_max\_age](#input\_mta\_sts\_max\_age) | Maximum lifetime of the policy in seconds, up to 31557600, defaults to 604800 (1 week)                                     | `number`                                                                        | `604800`                                               | no       |
-| <a name="input_mta_sts_mode"></a> [mta\_sts\_mode](#input\_mta\_sts\_mode)            | MTA policy mode, <https://tools.ietf.org/html/rfc8461#section-5>                                                           | `string`                                                                        | `"testing"`                                            | no       |
-| <a name="input_mta_sts_mx"></a> [mta\_sts\_mx](#input\_mta\_sts\_mx)                  | Additional permitted MX hosts for the MTA STS policy.                                                                      | `list(string)`                                                                  | `[]`                                                   | no       |
-| <a name="input_mx"></a> [mx](#input\_mx)                                              | A map representing the MX records. Key is the mail server hostname and value is the priority.                              | `map(number)`                                                                   | n/a                                                    | yes      |
-| <a name="input_mx_subdomains"></a> [mx\_subdomains](#input\_mx\_subdomains)           | List of sub-domains to also apply MX records to.                                                                           | `list(string)`                                                                  | `[]`                                                   | no       |
-| <a name="input_record_ttl"></a> [record\_ttl](#input\_record\_ttl)                    | TTL for DNS records. `1` is auto. Default is `1`.                                                                          | `number`                                                                        | `1`                                                    | no       |
-| <a name="input_spf_terms"></a> [spf\_terms](#input\_spf\_terms)                       | List of SPF terms that should be included in the SPF TXT record.                                                           | `list(string)`                                                                  | <pre>[<br/>  "mx",<br/>  "a",<br/>  "~all"<br/>]</pre> | no       |
-| <a name="input_tlsrpt_rua"></a> [tlsrpt\_rua](#input\_tlsrpt\_rua)                    | Locations to which aggregate TLS SMTP reports about policy violations should be sent, either `mailto:` or `https:` schema. | `list(string)`                                                                  | n/a                                                    | yes      |
-| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id)                             | Cloudflare Zone ID                                                                                                         | `string`                                                                        | n/a                                                    | yes      |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | Cloudflare Account ID | `string` | n/a | yes |
+| <a name="input_dmarc_dkim_mode"></a> [dmarc\_dkim\_mode](#input\_dmarc\_dkim\_mode) | The DMARC DKIM mode for alignment (options: `relaxed`, `strict`). | `string` | `"relaxed"` | no |
+| <a name="input_dmarc_fo"></a> [dmarc\_fo](#input\_dmarc\_fo) | Failure reporting options for DMARC (characters: `0`, `1`, `d`, `s`, separated by `:`). | `string` | `"1:d:s"` | no |
+| <a name="input_dmarc_percent"></a> [dmarc\_percent](#input\_dmarc\_percent) | Percentage of messages to apply the DMARC policy to (0-100). | `number` | `100` | no |
+| <a name="input_dmarc_policy"></a> [dmarc\_policy](#input\_dmarc\_policy) | The DMARC policy to apply (options: `none`, `quarantine`, `reject`). | `string` | `"none"` | no |
+| <a name="input_dmarc_rua"></a> [dmarc\_rua](#input\_dmarc\_rua) | Where aggregate DMARC reports about policy violations should be sent. | `list(string)` | n/a | yes |
+| <a name="input_dmarc_ruf"></a> [dmarc\_ruf](#input\_dmarc\_ruf) | Where failure/forensic DMARC reports about policy violations should be sent. | `list(string)` | `[]` | no |
+| <a name="input_dmarc_spf_mode"></a> [dmarc\_spf\_mode](#input\_dmarc\_spf\_mode) | The DMARC SPF mode for alignment (options: `relaxed`, `strict`). | `string` | `"relaxed"` | no |
+| <a name="input_dmarc_ttl"></a> [dmarc\_ttl](#input\_dmarc\_ttl) | TTL for `_dmarc` DNS record. `1` is auto. Default is `1`. | `number` | `1` | no |
+| <a name="input_domainkeys"></a> [domainkeys](#input\_domainkeys) | Map of domain keys with name, record type (`TXT` or `CNAME`), and value. | <pre>map(object({<br/>    type  = string<br/>    value = string<br/>  }))</pre> | `{}` | no |
+| <a name="input_mta_sts_max_age"></a> [mta\_sts\_max\_age](#input\_mta\_sts\_max\_age) | Maximum lifetime of the policy in seconds, up to 31557600, defaults to 604800 (1 week) | `number` | `604800` | no |
+| <a name="input_mta_sts_mode"></a> [mta\_sts\_mode](#input\_mta\_sts\_mode) | MTA policy mode, https://tools.ietf.org/html/rfc8461#section-5 | `string` | `"testing"` | no |
+| <a name="input_mta_sts_mx"></a> [mta\_sts\_mx](#input\_mta\_sts\_mx) | Additional permitted MX hosts for the MTA STS policy. | `list(string)` | `[]` | no |
+| <a name="input_mx"></a> [mx](#input\_mx) | A map representing the MX records. Key is the mail server hostname and value is the priority. | `map(number)` | n/a | yes |
+| <a name="input_mx_subdomains"></a> [mx\_subdomains](#input\_mx\_subdomains) | List of sub-domains to also apply MX records to. | `list(string)` | `[]` | no |
+| <a name="input_record_ttl"></a> [record\_ttl](#input\_record\_ttl) | TTL for DNS records. `1` is auto. Default is `1`. | `number` | `1` | no |
+| <a name="input_spf_terms"></a> [spf\_terms](#input\_spf\_terms) | List of SPF terms that should be included in the SPF TXT record. | `list(string)` | <pre>[<br/>  "mx",<br/>  "a",<br/>  "~all"<br/>]</pre> | no |
+| <a name="input_tlsrpt_rua"></a> [tlsrpt\_rua](#input\_tlsrpt\_rua) | Locations to which aggregate TLS SMTP reports about policy violations should be sent, either `mailto:` or `https:` schema. | `list(string)` | n/a | yes |
+| <a name="input_zone_id"></a> [zone\_id](#input\_zone\_id) | Cloudflare Zone ID | `string` | n/a | yes |
 
 ## Outputs
 
-| Name                                                                                             | Description                     |
-| ------------------------------------------------------------------------------------------------ | ------------------------------- |
+| Name | Description |
+|------|-------------|
 | <a name="output_mta_sts_policy_url"></a> [mta\_sts\_policy\_url](#output\_mta\_sts\_policy\_url) | URL to the MTA-STS policy file. |
+<!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

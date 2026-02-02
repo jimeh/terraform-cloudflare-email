@@ -1,3 +1,5 @@
 [tools]
+"npm:prettier" = "latest"
+node = "lts"
 terraform = "latest"
 terraform-docs = "latest"
