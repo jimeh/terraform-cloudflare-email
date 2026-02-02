@@ -56,7 +56,7 @@ Below example is based on the
 [DNS Basics](https://support.google.com/a/answer/48090?hl=en) support article.
 When going through the domain setup wizard within the Google Workspace Admin,
 you are likely to be given a slightly different list of MX records, and
-obviously
+obviously you should use the ones that are given to you by Google.
 
 Also make sure you generate your own domain key from under Apps > Google
 Workspace > Gmail > Authenticate Email.
