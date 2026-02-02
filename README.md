@@ -281,6 +281,7 @@ resource "cloudflare_record" "srv" {
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1 |
 | <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | >= 3.0, < 5.0 |
 
 ## Providers
