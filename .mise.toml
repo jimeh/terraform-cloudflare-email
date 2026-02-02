@@ -3,3 +3,4 @@
 node = "lts"
 terraform = "latest"
 terraform-docs = "latest"
+tflint = "latest"
